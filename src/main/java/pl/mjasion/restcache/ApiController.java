@@ -1,12 +1,12 @@
 package pl.mjasion.restcache;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.mjasion.restcache.domain.Api;
 import pl.mjasion.restcache.domain.repository.ApiRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -20,5 +20,10 @@ public class ApiController {
         Api api = new Api(key);
         apiRepository.save(api);
         return api;
+    }
+
+    @RequestMapping("/api/list")
+    public List<Api> getAllApis() {
+        return apiRepository.findAll();
     }
 }

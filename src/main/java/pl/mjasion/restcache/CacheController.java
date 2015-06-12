@@ -10,6 +10,8 @@ import pl.mjasion.restcache.domain.repository.ApiRepository;
 import pl.mjasion.restcache.domain.repository.CacheRepository;
 import pl.mjasion.restcache.domain.request.CreateRequest;
 
+import java.util.List;
+
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
@@ -19,6 +21,12 @@ public class CacheController {
     @Autowired ApiRepository apiRepository;
     @Autowired CacheRepository cacheRepository;
 
+    @RequestMapping(value = "/", method = GET)
+    public List<Cache> getAll(@PathVariable("apiKey") String apiKey) {
+        validateApi(apiKey);
+        return cacheRepository.findByApi(apiKey);
+    }
+
     @RequestMapping(value = "/{key}", method = GET)
     public Cache get(@PathVariable("apiKey") String apiKey, @PathVariable("key") String key) {
         validateApi(apiKey);
@@ -26,19 +34,22 @@ public class CacheController {
     }
 
     @RequestMapping(value = "/{key}", method = POST)
-    public void update(@PathVariable("apiKey") String apiKey, @PathVariable("key") String key, CreateRequest createRequest) {
+    public void create(@PathVariable("apiKey") String apiKey, @PathVariable("key") String key, CreateRequest createRequest) {
         validateApi(apiKey);
-        if (cacheRepository.findByApiAndKey(apiKey, key) == null) {
-            throw new RuntimeException("Key  not found");
+        if (cacheRepository.findByApiAndKey(apiKey, key) != null) {
+            throw new RuntimeException("Key  exists");
         }
         Cache cache = new Cache(apiKey, key, createRequest);
         cacheRepository.save(cache);
     }
 
     @RequestMapping(value = "/{key}", method = PUT)
-    public void create(@PathVariable("apiKey") String apiKey, @PathVariable("key") String key,
+    public void update(@PathVariable("apiKey") String apiKey, @PathVariable("key") String key,
                        CreateRequest createRequest) {
         validateApi(apiKey);
+        if (cacheRepository.findByApiAndKey(apiKey, key) == null) {
+            throw new RuntimeException("Key  not found");
+        }
         Cache cache = new Cache(apiKey, key, createRequest);
         cacheRepository.save(cache);
     }
