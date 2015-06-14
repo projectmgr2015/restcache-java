@@ -1,0 +1,12 @@
+language: java
+services: mongodb
+jdk:
+  - oraclejdk8
+
+script:
+  - ./gradlew bootRepackage
+  - java -jar build/libs/restcache-1.0.jar &
+  - cd ..
+  - git clone https://github.com/projectmgr2015/restcache-tests.git
+  - cd restcache-tests
+  - ./gradlew test --info
