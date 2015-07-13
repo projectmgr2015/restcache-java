@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
-import pl.mjasion.restcache.domain.request.CreateRequest;
+import pl.mjasion.restcache.domain.request.CacheRequest;
 
 @Document
 @CompoundIndexes({
@@ -24,10 +24,10 @@ public class Cache {
     public Cache() {
     }
 
-    public Cache(String api, String key, CreateRequest createRequest) {
+    public Cache(String api, String key, CacheRequest cacheRequest) {
         this.api = api;
         this.key = key;
-        this.value = createRequest.cacheValue;
+        this.value = cacheRequest.cacheValue;
     }
 
     public String getId() {

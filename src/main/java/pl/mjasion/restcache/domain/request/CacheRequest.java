@@ -1,6 +1,6 @@
 package pl.mjasion.restcache.domain.request;
 
-public class CreateRequest {
+public class CacheRequest {
 
     public String cacheValue;
 

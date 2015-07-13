@@ -9,7 +9,7 @@ import pl.mjasion.restcache.domain.Api;
 import pl.mjasion.restcache.domain.Cache;
 import pl.mjasion.restcache.domain.repository.ApiRepository;
 import pl.mjasion.restcache.domain.repository.CacheRepository;
-import pl.mjasion.restcache.domain.request.CreateRequest;
+import pl.mjasion.restcache.domain.request.CacheRequest;
 import pl.mjasion.restcache.exceptions.ApiKeyNotFoundException;
 import pl.mjasion.restcache.exceptions.BadCacheRequestException;
 import pl.mjasion.restcache.exceptions.CacheExistsException;
@@ -42,18 +42,18 @@ public class CacheController {
 
     @RequestMapping(value = "/{key}", method = POST)
     public void create(
-            @PathVariable("apiKey") String apiKey, @PathVariable("key") String key, @RequestBody CreateRequest createRequest
+            @PathVariable("apiKey") String apiKey, @PathVariable("key") String key, @RequestBody CacheRequest cacheRequest
     ) {
-        validateRequest(createRequest);
+        validateRequest(cacheRequest);
         validateApi(apiKey);
         cacheNotExists(apiKey, key);
-        Cache cache = new Cache(apiKey, key, createRequest);
+        Cache cache = new Cache(apiKey, key, cacheRequest);
         cacheRepository.save(cache);
     }
 
     @RequestMapping(value = "/{key}", method = PUT)
     public void update(
-            @PathVariable("apiKey") String apiKey, @PathVariable("key") String key, @RequestBody CreateRequest updateRequest
+            @PathVariable("apiKey") String apiKey, @PathVariable("key") String key, @RequestBody CacheRequest updateRequest
     ) {
         validateRequest(updateRequest);
         validateApi(apiKey);
@@ -70,8 +70,8 @@ public class CacheController {
         cacheRepository.deleteByApiAndKey(apiKey, key);
     }
 
-    private void validateRequest(CreateRequest createRequest) {
-        if(createRequest.cacheValue == null) {
+    private void validateRequest(CacheRequest cacheRequest) {
+        if(cacheRequest.cacheValue == null) {
             throw new BadCacheRequestException("CacheValue is null");
         }
     }
