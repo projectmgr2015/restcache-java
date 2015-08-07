@@ -8,7 +8,8 @@ import pl.mjasion.restcache.domain.request.CacheRequest;
 
 @Document
 @CompoundIndexes({
-        @CompoundIndex(name = "api_key_idx", def = "{'key': 1, 'api': 1}")
+        @CompoundIndex(name = "api_key_idx", def = "{'key': 1, 'api': 1}"),
+        @CompoundIndex(name = "api_idx", def = "{'api': 1}")
 })
 public class Cache {
 
