@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker run -p 8080:8080 restcache-java-tomcat
+docker run -p 8080:8080 -d restcache-java-tomcat
