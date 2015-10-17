@@ -18,6 +18,6 @@ ADD . /app/
 
 WORKDIR /app/
 RUN ./gradlew build && \
-    find / -name gradle-2.5-all.zip -delete
+    find / -name gradle-2.*-all.zip -delete
 
 CMD ["java", "-jar", "build/libs/restcache-1.0.jar"]
